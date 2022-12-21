@@ -12,8 +12,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeHttpRequests()
-                .mvcMatchers("/", "/signUp", "/loginPage").permitAll()
-                .anyRequest().authenticated();
+                .mvcMatchers("/loginhome").authenticated()
+                .anyRequest().permitAll();
 
         http.formLogin()
                 .loginPage("/login")
