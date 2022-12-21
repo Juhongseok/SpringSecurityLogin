@@ -23,9 +23,4 @@ public class UserController {
         userService.saveUSer(request);
         return "redirect:/";
     }
-
-    @GetMapping("/loginPage")
-    public String loginPage(){
-        return "login";
-    }
 }
