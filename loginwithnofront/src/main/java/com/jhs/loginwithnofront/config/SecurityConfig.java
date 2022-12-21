@@ -17,6 +17,9 @@ public class SecurityConfig {
 
         http.formLogin()
                 .loginPage("/login")
+                /*.successHandler((request, response, authentication) -> {
+                    response.sendRedirect("/loginhome");
+                })*/
                 .defaultSuccessUrl("/loginhome");
         return http.build();
     }
