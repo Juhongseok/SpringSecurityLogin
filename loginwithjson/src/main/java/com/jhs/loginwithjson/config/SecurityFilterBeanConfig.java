@@ -17,8 +17,7 @@ public class SecurityFilterBeanConfig {
 
     @Bean
     public JsonLoginProcessFilter jsonLoginProcessFilter() {
-        JsonLoginProcessFilter jsonLoginProcessFilter = new JsonLoginProcessFilter(objectMapper);
-        jsonLoginProcessFilter.setAuthenticationManager(authenticationManager);
+        JsonLoginProcessFilter jsonLoginProcessFilter = new JsonLoginProcessFilter(objectMapper, authenticationManager);
         jsonLoginProcessFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
             response.getWriter().println("Success Login");
         });

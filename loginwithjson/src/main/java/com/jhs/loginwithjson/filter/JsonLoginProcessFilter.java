@@ -1,6 +1,7 @@
 package com.jhs.loginwithjson.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,8 +22,8 @@ public class JsonLoginProcessFilter extends AbstractAuthenticationProcessingFilt
     private static final String DEFAULT_FILTER_PROCESSES_URL = "/login";
     private final ObjectMapper objectMapper;
 
-    public JsonLoginProcessFilter(ObjectMapper objectMapper) {
-        super(DEFAULT_FILTER_PROCESSES_URL);
+    public JsonLoginProcessFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager) {
+        super(DEFAULT_FILTER_PROCESSES_URL, authenticationManager);
         this.objectMapper = objectMapper;
     }
 
