@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: local
+    include: jwt
   datasource:
     url: jdbc:h2:tcp://localhost/~/loginJson
     username: sa
