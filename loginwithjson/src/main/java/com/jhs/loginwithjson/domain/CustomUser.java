@@ -45,4 +45,8 @@ public class CustomUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
 }

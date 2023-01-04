@@ -24,6 +24,7 @@ public class User {
     private String email;
     private String name;
     private String password;
+    private String refreshToken;
 
     public User(String email, String name, String password) {
         this.email = email;
@@ -33,5 +34,9 @@ public class User {
 
     public static User of(SignUpRequest request) {
         return new User(request.getEmail(), request.getName(), request.getPassword());
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
