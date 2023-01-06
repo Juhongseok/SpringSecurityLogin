@@ -25,9 +25,8 @@ public class JwtProviderHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomUser customUser = (CustomUser) authentication.getPrincipal();
         String email = customUser.getEmail();
-        String username = customUser.getUsername();
 
-        String accessToken = jwtService.createAccessToken(email, username);
+        String accessToken = jwtService.createAccessToken(email);
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendBothToken(response, accessToken, refreshToken);

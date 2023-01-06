@@ -16,6 +16,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JwtService {
 
+    private final String PREFIX = "Bearer ";
+    private final String BLANK = "";
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.access.expiration}")
@@ -27,25 +29,22 @@ public class JwtService {
     @Value("${jwt.refresh.header}")
     private String refreshHeader;
 
-    public String createAccessToken(String email, String username) {
-        return JWT.create()
+    public String createAccessToken(String email) {
+        return PREFIX.concat(JWT.create()
                 .withSubject("AccessToken")
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenValidationSeconds * 1000))
                 .withClaim("email", email)
-                .withClaim("username", username)
-                .sign(Algorithm.HMAC512(secret));
+                .sign(Algorithm.HMAC512(secret)));
     }
 
     public String createRefreshToken() {
-        return JWT.create()
+        return PREFIX.concat(JWT.create()
                 .withSubject("RefreshToken")
                 .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenValidationSeconds * 1000))
-                .sign(Algorithm.HMAC512(secret));
+                .sign(Algorithm.HMAC512(secret)));
     }
 
     public void sendBothToken(HttpServletResponse response, String accessToken, String refreshToken) {
-        System.out.println("accessToken = " + accessToken);
-        System.out.println("refreshToken = " + refreshToken);
         setAccessTokenInHeader(response, accessToken);
         setRefreshTokenInHeader(response, refreshToken);
     }
@@ -60,14 +59,22 @@ public class JwtService {
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(accessHeader))
-                .filter(refreshToken -> refreshToken.startsWith("Bearer"))
-                .map(refreshToken -> refreshToken.replace("Bearer", ""));
+                .filter(refreshToken -> refreshToken.startsWith(PREFIX))
+                .map(refreshToken -> refreshToken.replace(PREFIX, BLANK));
     }
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
         return Optional.ofNullable(request.getHeader(refreshHeader))
-                .filter(refreshToken -> refreshToken.startsWith("Bearer"))
-                .map(refreshToken -> refreshToken.replace("Bearer", ""));
+                .filter(refreshToken -> refreshToken.startsWith(PREFIX))
+                .map(refreshToken -> refreshToken.replace(PREFIX, BLANK));
+    }
+
+    public String extractUserEmail(String token) {
+        return JWT.require(Algorithm.HMAC512(secret))
+                .build()
+                .verify(token)
+                .getClaim("email")
+                .asString();
     }
 
     public boolean isTokenValid(String token) {
@@ -79,13 +86,5 @@ public class JwtService {
         } catch (JWTVerificationException e) {
             return false;
         }
-    }
-
-    public String extractUserEmail(String token) {
-        return JWT.require(Algorithm.HMAC512(secret))
-                .build()
-                .verify(token)
-                .getClaim("email")
-                .asString();
     }
 }
