@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-public class JsonLoginProcessFilter extends AbstractAuthenticationProcessingFilter {
+public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String CONTENT_TYPE = "application/json";
     private static final String SPRING_SECURITY_FORM_USERNAME_KEY = "userId";
@@ -22,7 +22,7 @@ public class JsonLoginProcessFilter extends AbstractAuthenticationProcessingFilt
     private static final String DEFAULT_FILTER_PROCESSES_URL = "/login";
     private final ObjectMapper objectMapper;
 
-    public JsonLoginProcessFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager) {
         super(DEFAULT_FILTER_PROCESSES_URL, authenticationManager);
         this.objectMapper = objectMapper;
     }

@@ -1,7 +1,7 @@
 package com.jhs.loginwithjson.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jhs.loginwithjson.filter.JsonLoginProcessFilter;
+import com.jhs.loginwithjson.filter.JwtAuthenticationFilter;
 import com.jhs.loginwithjson.filter.JsonToHttpRequestFilter;
 import com.jhs.loginwithjson.filter.handler.JwtProviderHandler;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ public class SecurityFilterBeanConfig {
     private final AuthenticationManager authenticationManager;
 
     @Bean
-    public JsonLoginProcessFilter jsonLoginProcessFilter() {
-        JsonLoginProcessFilter jsonLoginProcessFilter = new JsonLoginProcessFilter(objectMapper, authenticationManager);
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        JwtAuthenticationFilter jsonLoginProcessFilter = new JwtAuthenticationFilter(objectMapper, authenticationManager);
         jsonLoginProcessFilter.setAuthenticationSuccessHandler(jwtProviderHandler);
         return jsonLoginProcessFilter;
     }

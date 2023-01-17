@@ -1,6 +1,6 @@
 package com.jhs.loginwithjson.config;
 
-import com.jhs.loginwithjson.filter.JsonLoginProcessFilter;
+import com.jhs.loginwithjson.filter.JwtAuthenticationFilter;
 import com.jhs.loginwithjson.filter.JsonToHttpRequestFilter;
 import com.jhs.loginwithjson.filter.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JsonLoginProcessFilter jsonLoginProcessFilter;
+    private final JwtAuthenticationFilter jsonLoginProcessFilter;
     private final JsonToHttpRequestFilter jsonToHttpRequestFilter;
 
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
@@ -34,7 +34,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:5500"));
         configuration.setAllowedMethods(List.of("GET","POST"));
         configuration.addAllowedHeader("*");
         configuration.setExposedHeaders(List.of(accessHeader, refreshHeader));
@@ -62,7 +62,7 @@ public class SecurityConfig {
 
         http.addFilterAfter(jsonToHttpRequestFilter, LogoutFilter.class);*/
         http.addFilterAfter(jsonLoginProcessFilter, LogoutFilter.class);
-        http.addFilterAfter(jwtAuthorizationFilter, JsonLoginProcessFilter.class);
+        http.addFilterAfter(jwtAuthorizationFilter, JwtAuthenticationFilter.class);
         return http.build();
     }
 }
