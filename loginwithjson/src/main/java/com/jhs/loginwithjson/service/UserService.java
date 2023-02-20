@@ -1,7 +1,7 @@
 package com.jhs.loginwithjson.service;
 
 import com.jhs.loginwithjson.controller.SignUpRequest;
-import com.jhs.loginwithjson.auth.model.CustomUser;
+import com.jhs.loginwithjson.global.auth.model.CustomUser;
 import com.jhs.loginwithjson.domain.User;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

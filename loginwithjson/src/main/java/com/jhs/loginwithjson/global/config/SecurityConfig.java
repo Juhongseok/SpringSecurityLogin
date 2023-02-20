@@ -1,11 +1,10 @@
-package com.jhs.loginwithjson.config;
+package com.jhs.loginwithjson.global.config;
 
-import com.jhs.loginwithjson.auth.CustomAuthorizationRequestRepository;
-import com.jhs.loginwithjson.auth.CustomOauth2UserService;
-import com.jhs.loginwithjson.filter.JsonLoginProcessFilter;
-import com.jhs.loginwithjson.filter.deprectaed.JsonToHttpRequestFilter;
-import com.jhs.loginwithjson.filter.JwtAuthorizationFilter;
-import com.jhs.loginwithjson.filter.handler.OAuth2AuthenticationSuccessHandler;
+import com.jhs.loginwithjson.global.auth.CustomAuthorizationRequestRepository;
+import com.jhs.loginwithjson.global.auth.CustomOauth2UserService;
+import com.jhs.loginwithjson.global.filter.JsonLoginProcessFilter;
+import com.jhs.loginwithjson.global.filter.JwtAuthorizationFilter;
+import com.jhs.loginwithjson.global.filter.handler.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,8 @@
-package com.jhs.loginwithjson.filter.handler;
+package com.jhs.loginwithjson.global.filter.handler;
 
-import com.jhs.loginwithjson.auth.model.CustomUser;
-import com.jhs.loginwithjson.auth.utils.TokenMapping;
-import com.jhs.loginwithjson.auth.jwt.JwtService;
+import com.jhs.loginwithjson.global.auth.model.CustomUser;
+import com.jhs.loginwithjson.global.auth.utils.TokenMapping;
+import com.jhs.loginwithjson.global.auth.jwt.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

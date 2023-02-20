@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.config;
+package com.jhs.loginwithjson.global.config;
 
 import com.jhs.loginwithjson.repository.UserRepository;
 import com.jhs.loginwithjson.service.UserService;

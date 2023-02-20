@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.filter.deprectaed;
+package com.jhs.loginwithjson.global.filter.deprectaed;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;

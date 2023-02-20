@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.filter;
+package com.jhs.loginwithjson.global.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.auth.oauth2info;
+package com.jhs.loginwithjson.global.auth.oauth2info;
 
 import java.util.Arrays;
 import java.util.Map;

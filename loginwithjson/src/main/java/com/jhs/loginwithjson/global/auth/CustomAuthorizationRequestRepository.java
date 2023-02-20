@@ -1,6 +1,6 @@
-package com.jhs.loginwithjson.auth;
+package com.jhs.loginwithjson.global.auth;
 
-import com.jhs.loginwithjson.auth.utils.CookieUtils;
+import com.jhs.loginwithjson.global.auth.utils.CookieUtils;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;

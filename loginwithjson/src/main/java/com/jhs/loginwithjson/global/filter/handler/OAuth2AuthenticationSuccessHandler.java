@@ -1,10 +1,10 @@
-package com.jhs.loginwithjson.filter.handler;
+package com.jhs.loginwithjson.global.filter.handler;
 
-import com.jhs.loginwithjson.auth.CustomAuthorizationRequestRepository;
-import com.jhs.loginwithjson.auth.utils.CookieUtils;
-import com.jhs.loginwithjson.auth.model.CustomUser;
-import com.jhs.loginwithjson.auth.utils.TokenMapping;
-import com.jhs.loginwithjson.auth.jwt.JwtService;
+import com.jhs.loginwithjson.global.auth.CustomAuthorizationRequestRepository;
+import com.jhs.loginwithjson.global.auth.utils.CookieUtils;
+import com.jhs.loginwithjson.global.auth.model.CustomUser;
+import com.jhs.loginwithjson.global.auth.utils.TokenMapping;
+import com.jhs.loginwithjson.global.auth.jwt.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.jhs.loginwithjson.auth.CustomAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.jhs.loginwithjson.global.auth.CustomAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 @RequiredArgsConstructor

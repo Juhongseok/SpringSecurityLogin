@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.auth.utils;
+package com.jhs.loginwithjson.global.auth.utils;
 
 import org.springframework.util.SerializationUtils;
 

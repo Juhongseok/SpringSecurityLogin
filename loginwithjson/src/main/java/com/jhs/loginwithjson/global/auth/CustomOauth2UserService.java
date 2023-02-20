@@ -1,8 +1,8 @@
-package com.jhs.loginwithjson.auth;
+package com.jhs.loginwithjson.global.auth;
 
-import com.jhs.loginwithjson.auth.oauth2info.OAuth2UserInfo;
-import com.jhs.loginwithjson.auth.oauth2info.OAuthAttributes;
-import com.jhs.loginwithjson.auth.model.CustomUser;
+import com.jhs.loginwithjson.global.auth.oauth2info.OAuth2UserInfo;
+import com.jhs.loginwithjson.global.auth.oauth2info.OAuthAttributes;
+import com.jhs.loginwithjson.global.auth.model.CustomUser;
 import com.jhs.loginwithjson.domain.User;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

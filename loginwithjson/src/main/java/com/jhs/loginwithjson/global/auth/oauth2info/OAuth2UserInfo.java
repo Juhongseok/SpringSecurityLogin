@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.auth.oauth2info;
+package com.jhs.loginwithjson.global.auth.oauth2info;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
