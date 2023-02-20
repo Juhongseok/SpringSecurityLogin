@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.global.auth.utils;
+package com.jhs.loginwithjson.global.auth.model;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.jhs.loginwithjson.global.config;
 
-import com.jhs.loginwithjson.global.auth.CustomAuthorizationRequestRepository;
+import com.jhs.loginwithjson.global.auth.CookieAuthorizationRequestRepository;
 import com.jhs.loginwithjson.global.auth.CustomOauth2UserService;
 import com.jhs.loginwithjson.global.filter.JsonLoginProcessFilter;
 import com.jhs.loginwithjson.global.filter.JwtAuthorizationFilter;
@@ -21,7 +21,7 @@ public class SecurityConfig {
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
     private final CustomOauth2UserService customOauth2UserService;
-    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
+    private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     @Bean
@@ -47,7 +47,7 @@ public class SecurityConfig {
         http
                 .oauth2Login()
                 .authorizationEndpoint()
-                .authorizationRequestRepository(customAuthorizationRequestRepository)
+                .authorizationRequestRepository(cookieAuthorizationRequestRepository)
                 .and()
                 .userInfoEndpoint()
                 .userService(customOauth2UserService)

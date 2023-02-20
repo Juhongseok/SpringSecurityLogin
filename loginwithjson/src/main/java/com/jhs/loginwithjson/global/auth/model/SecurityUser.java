@@ -14,12 +14,12 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
-public class CustomUser implements UserDetails, OAuth2User {
+public class SecurityUser implements UserDetails, OAuth2User {
 
     private final User user;
     private OAuth2UserInfo oauth2Oauth2UserInfo;
 
-    public CustomUser(User user, OAuth2UserInfo oauth2Oauth2UserInfo) {
+    public SecurityUser(User user, OAuth2UserInfo oauth2Oauth2UserInfo) {
         this.user = user;
         this.oauth2Oauth2UserInfo = oauth2Oauth2UserInfo;
     }

@@ -2,7 +2,7 @@ package com.jhs.loginwithjson.global.auth;
 
 import com.jhs.loginwithjson.global.auth.oauth2info.OAuth2UserInfo;
 import com.jhs.loginwithjson.global.auth.oauth2info.OAuthAttributes;
-import com.jhs.loginwithjson.global.auth.model.CustomUser;
+import com.jhs.loginwithjson.global.auth.model.SecurityUser;
 import com.jhs.loginwithjson.domain.User;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2UserInfo oAuth2UserInfo = OAuthAttributes.of(registrationId, super.loadUser(userRequest).getAttributes());
         User user = saveUser(oAuth2UserInfo);
-        return new CustomUser(user, oAuth2UserInfo);
+        return new SecurityUser(user, oAuth2UserInfo);
     }
 
     private User saveUser(OAuth2UserInfo oauth2Oauth2UserInfo) {

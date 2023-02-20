@@ -1,8 +1,8 @@
 package com.jhs.loginwithjson.global.filter.handler;
 
-import com.jhs.loginwithjson.global.auth.model.CustomUser;
-import com.jhs.loginwithjson.global.auth.utils.TokenMapping;
-import com.jhs.loginwithjson.global.auth.jwt.JwtService;
+import com.jhs.loginwithjson.global.auth.model.SecurityUser;
+import com.jhs.loginwithjson.global.auth.model.TokenMapping;
+import com.jhs.loginwithjson.global.auth.utils.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -23,8 +23,8 @@ public class JwtProviderHandler implements AuthenticationSuccessHandler {
     @Override
     @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        CustomUser customUser = (CustomUser) authentication.getPrincipal();
-        String email = customUser.getEmail();
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+        String email = securityUser.getEmail();
 
         TokenMapping token = jwtService.createToken(email);
         jwtService.sendBothToken(response, token.getAccessToken(), token.getRefreshToken());

@@ -1,8 +1,8 @@
 package com.jhs.loginwithjson.global.filter;
 
-import com.jhs.loginwithjson.global.auth.model.CustomUser;
+import com.jhs.loginwithjson.global.auth.model.SecurityUser;
 import com.jhs.loginwithjson.domain.User;
-import com.jhs.loginwithjson.global.auth.jwt.JwtService;
+import com.jhs.loginwithjson.global.auth.utils.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,8 +43,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private void saveAuthentication(String accessToken) {
         String email = jwtService.extractUserEmail(accessToken);
-        CustomUser customUser = new CustomUser(userRepository.findUserByEmail(email).get());
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customUser, null, customUser.getAuthorities());
+        SecurityUser securityUser = new SecurityUser(userRepository.findUserByEmail(email).get());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

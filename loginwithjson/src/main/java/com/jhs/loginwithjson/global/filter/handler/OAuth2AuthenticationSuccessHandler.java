@@ -1,10 +1,10 @@
 package com.jhs.loginwithjson.global.filter.handler;
 
-import com.jhs.loginwithjson.global.auth.CustomAuthorizationRequestRepository;
+import com.jhs.loginwithjson.global.auth.CookieAuthorizationRequestRepository;
 import com.jhs.loginwithjson.global.auth.utils.CookieUtils;
-import com.jhs.loginwithjson.global.auth.model.CustomUser;
-import com.jhs.loginwithjson.global.auth.utils.TokenMapping;
-import com.jhs.loginwithjson.global.auth.jwt.JwtService;
+import com.jhs.loginwithjson.global.auth.model.SecurityUser;
+import com.jhs.loginwithjson.global.auth.model.TokenMapping;
+import com.jhs.loginwithjson.global.auth.utils.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.jhs.loginwithjson.global.auth.CustomAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.jhs.loginwithjson.global.auth.CookieAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Component
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
+    private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
 
     @Override
     @Transactional
@@ -49,8 +49,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private TokenMapping saveUser(Authentication authentication) {
-        CustomUser customUser = (CustomUser) authentication.getPrincipal();
-        String email = customUser.getEmail();
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+        String email = securityUser.getEmail();
         TokenMapping token = jwtService.createToken(email);
 
         userRepository.findUserByEmail(email).get()
@@ -66,6 +66,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
-        customAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
+        cookieAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
 }

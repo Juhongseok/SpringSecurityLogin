@@ -5,7 +5,7 @@ import com.jhs.loginwithjson.global.filter.JsonLoginProcessFilter;
 import com.jhs.loginwithjson.global.filter.deprectaed.JsonToHttpRequestFilter;
 import com.jhs.loginwithjson.global.filter.JwtAuthorizationFilter;
 import com.jhs.loginwithjson.global.filter.handler.JwtProviderHandler;
-import com.jhs.loginwithjson.global.auth.jwt.JwtService;
+import com.jhs.loginwithjson.global.auth.utils.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
