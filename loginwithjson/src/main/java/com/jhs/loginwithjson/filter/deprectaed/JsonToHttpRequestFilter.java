@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.filter;
+package com.jhs.loginwithjson.filter.deprectaed;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
@@ -14,7 +14,7 @@ public class JsonToHttpRequestFilter implements Filter {
     private static final String SPRING_SECURITY_FORM_USERNAME_KEY = "username";
     private static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
     private final ObjectMapper objectMapper;
-    private RequestMatcher matcher;
+    private final RequestMatcher matcher;
 
     public JsonToHttpRequestFilter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

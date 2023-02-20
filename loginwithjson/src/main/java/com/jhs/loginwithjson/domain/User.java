@@ -37,6 +37,11 @@ public class User {
     }
 
     public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+        this.refreshToken = refreshToken.replace("Bearer ", "");
+    }
+
+    public void update(String email, String name) {
+        this.email = email;
+        this.name = name;
     }
 }

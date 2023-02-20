@@ -1,4 +1,4 @@
-package com.jhs.loginwithjson.filter;
+package com.jhs.loginwithjson.filter.deprectaed;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

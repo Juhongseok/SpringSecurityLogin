@@ -1,9 +1,9 @@
-package com.jhs.loginwithjson.jwt;
+package com.jhs.loginwithjson.auth.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import lombok.RequiredArgsConstructor;
+import com.jhs.loginwithjson.auth.utils.TokenMapping;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class JwtService {
 
     private final String PREFIX = "Bearer ";
@@ -29,6 +28,12 @@ public class JwtService {
     @Value("${jwt.refresh.header}")
     private String refreshHeader;
 
+    public TokenMapping createToken(String email) {
+        return TokenMapping.builder()
+                .accessToken(createAccessToken(email))
+                .refreshToken(createRefreshToken())
+                .build();
+    }
     public String createAccessToken(String email) {
         return PREFIX.concat(JWT.create()
                 .withSubject("AccessToken")
@@ -72,7 +77,7 @@ public class JwtService {
     public String extractUserEmail(String token) {
         return JWT.require(Algorithm.HMAC512(secret))
                 .build()
-                .verify(token)
+                .verify(token.replace(PREFIX, BLANK))
                 .getClaim("email")
                 .asString();
     }

@@ -1,68 +1,62 @@
 package com.jhs.loginwithjson.config;
 
-import com.jhs.loginwithjson.filter.JwtAuthenticationFilter;
-import com.jhs.loginwithjson.filter.JsonToHttpRequestFilter;
+import com.jhs.loginwithjson.auth.CustomAuthorizationRequestRepository;
+import com.jhs.loginwithjson.auth.CustomOauth2UserService;
+import com.jhs.loginwithjson.filter.JsonLoginProcessFilter;
+import com.jhs.loginwithjson.filter.deprectaed.JsonToHttpRequestFilter;
 import com.jhs.loginwithjson.filter.JwtAuthorizationFilter;
+import com.jhs.loginwithjson.filter.handler.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jsonLoginProcessFilter;
-    private final JsonToHttpRequestFilter jsonToHttpRequestFilter;
-
+    private final JsonLoginProcessFilter jsonLoginProcessFilter;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
-    @Value("${jwt.access.header}")
-    private String accessHeader;
-    @Value("${jwt.refresh.header}")
-    private String refreshHeader;
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:5500"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
-        configuration.addAllowedHeader("*");
-        configuration.setExposedHeaders(List.of(accessHeader, refreshHeader));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    private final CustomOauth2UserService customOauth2UserService;
+    private final CustomAuthorizationRequestRepository customAuthorizationRequestRepository;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.cors();
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeHttpRequests()
+        http
+                .csrf().disable()
+                .cors()
+            .and()
+                .httpBasic().disable()
+                .rememberMe().disable()
+                .headers().disable()
+                .formLogin().disable()
+                .requestCache().disable()
+                .logout().disable()
+                .exceptionHandling();
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .authorizeHttpRequests()
                 .mvcMatchers("/loginhome").authenticated()
                 .anyRequest().permitAll();
-
-        /*http.formLogin()
-                .loginPage("/login")
-                .successHandler((request, response, authentication) -> {
-                    response.getWriter().println("success login");
-                });
-
-        http.addFilterAfter(jsonToHttpRequestFilter, LogoutFilter.class);*/
-        http.addFilterAfter(jsonLoginProcessFilter, LogoutFilter.class);
-        http.addFilterAfter(jwtAuthorizationFilter, JwtAuthenticationFilter.class);
+        http
+                .oauth2Login()
+                .authorizationEndpoint()
+                .authorizationRequestRepository(customAuthorizationRequestRepository)
+                .and()
+                .userInfoEndpoint()
+                .userService(customOauth2UserService)
+            .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler);
+        http
+                .addFilterAfter(jsonLoginProcessFilter, OAuth2LoginAuthenticationFilter.class)
+                .addFilterAfter(jwtAuthorizationFilter, JsonLoginProcessFilter.class);
         return http.build();
     }
 }

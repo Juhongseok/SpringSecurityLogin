@@ -1,12 +1,12 @@
 package com.jhs.loginwithjson.filter.handler;
 
-import com.jhs.loginwithjson.domain.CustomUser;
-import com.jhs.loginwithjson.jwt.JwtService;
+import com.jhs.loginwithjson.auth.model.CustomUser;
+import com.jhs.loginwithjson.auth.utils.TokenMapping;
+import com.jhs.loginwithjson.auth.jwt.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletException;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor
 public class JwtProviderHandler implements AuthenticationSuccessHandler {
 
@@ -27,12 +26,9 @@ public class JwtProviderHandler implements AuthenticationSuccessHandler {
         CustomUser customUser = (CustomUser) authentication.getPrincipal();
         String email = customUser.getEmail();
 
-        String accessToken = jwtService.createAccessToken(email);
-        String refreshToken = jwtService.createRefreshToken();
-
-        jwtService.sendBothToken(response, accessToken, refreshToken);
-
-        userRepository.findUserByEmail(email)
-                .updateRefreshToken(refreshToken);
+        TokenMapping token = jwtService.createToken(email);
+        jwtService.sendBothToken(response, token.getAccessToken(), token.getRefreshToken());
+        userRepository.findUserByEmail(email).get()
+                .updateRefreshToken(token.getRefreshToken());
     }
 }

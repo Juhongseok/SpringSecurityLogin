@@ -1,13 +1,12 @@
 package com.jhs.loginwithjson.filter;
 
-import com.jhs.loginwithjson.domain.CustomUser;
+import com.jhs.loginwithjson.auth.model.CustomUser;
 import com.jhs.loginwithjson.domain.User;
-import com.jhs.loginwithjson.jwt.JwtService;
+import com.jhs.loginwithjson.auth.jwt.JwtService;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@Component
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
@@ -28,11 +26,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      * accessToken 유효 -> authentication 저장
      * accessToken 만료
      *      refreshToken 유효 -> authentication 저장, accessToken 갱신
-     *      refreshToken 만료 -> throw Exception
+     *      refreshToken 만료 -> authentication 저장 X
      */
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("login 외 접근");
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
                 .ifPresentOrElse(
@@ -44,7 +43,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private void saveAuthentication(String accessToken) {
         String email = jwtService.extractUserEmail(accessToken);
-        CustomUser customUser = new CustomUser(userRepository.findUserByEmail(email));
+        CustomUser customUser = new CustomUser(userRepository.findUserByEmail(email).get());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customUser, null, customUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -59,6 +58,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String accessToken = jwtService.createAccessToken(user.getEmail());
             jwtService.setAccessTokenInHeader(response, accessToken);
             saveAuthentication(accessToken);
+        } else {
+            doNotSaveAuthentication();
         }
+    }
+
+    private void doNotSaveAuthentication() {
     }
 }

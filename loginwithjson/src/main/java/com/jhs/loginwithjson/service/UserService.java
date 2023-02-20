@@ -1,7 +1,7 @@
 package com.jhs.loginwithjson.service;
 
 import com.jhs.loginwithjson.controller.SignUpRequest;
-import com.jhs.loginwithjson.domain.CustomUser;
+import com.jhs.loginwithjson.auth.model.CustomUser;
 import com.jhs.loginwithjson.domain.User;
 import com.jhs.loginwithjson.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username);
+        User user = userRepository.findUserByEmail(username).get();
         return new CustomUser(user);
     }
 

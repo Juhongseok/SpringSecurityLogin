@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class JsonLoginProcessFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String CONTENT_TYPE = "application/json";
     private static final String SPRING_SECURITY_FORM_USERNAME_KEY = "userId";
     private static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
-    private static final String DEFAULT_FILTER_PROCESSES_URL = "/login";
+    private static final String DEFAULT_FILTER_PROCESSES_URL = "/normallogin";
     private final ObjectMapper objectMapper;
 
-    public JwtAuthenticationFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager) {
+    public JsonLoginProcessFilter(ObjectMapper objectMapper, AuthenticationManager authenticationManager) {
         super(DEFAULT_FILTER_PROCESSES_URL, authenticationManager);
         this.objectMapper = objectMapper;
     }
