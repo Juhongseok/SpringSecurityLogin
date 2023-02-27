@@ -1,0 +1,4 @@
+[submodule "loginwithjson/config"]
+	path = loginwithjson/config
+	url = https://github.com/Juhongseok/submodules.git
+    branch = main
