@@ -35,3 +35,15 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task copySubmodule(type: Copy){
+    copy {
+        from './Properties'
+        include "*.yml"
+        into './src/main/resoures'
+    }
+}
+
+build{
+    dependsOn copySubmodule
+}
