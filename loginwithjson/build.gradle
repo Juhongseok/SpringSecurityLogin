@@ -38,12 +38,8 @@ tasks.named('test') {
 
 task copySubmodule(type: Copy){
     copy {
-        from './Properties'
+        from './config'
         include "*.yml"
-        into './src/main/resoures'
+        into 'build/resources/main'
     }
-}
-
-build{
-    dependsOn copySubmodule
 }
